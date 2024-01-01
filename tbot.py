@@ -1,18 +1,24 @@
-from telegram.ext import Updater, MessageHandler, Filters
+from telegram import Update
+from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackContext
 
-def reply_hello(update, context):
-    user_name = update.message.from_user.username
-    context.bot.send_message(chat_id=update.effective_chat.id, text=f"Hello, {user_name}!")
+# Replace 'YOUR_TOKEN' with your actual bot token
+TOKEN = '6761392846:AAGVLI92-CuFcv9vdfDEpo6YFr061vQIWvo'
 
-def main():
-    # Replace 'YOUR_BOT_TOKEN' with the token obtained from BotFather
-    updater = Updater(token='6761392846:AAGVLI92-CuFcv9vdfDEpo6YFr061vQIWvo', use_context=True)
-    dp = updater.dispatcher
+def start(update: Update, context: CallbackContext) -> None:
+    update.message.reply_text('Hello! I am your bot. Type something, and I will respond with a hello.')
 
-    # Register a handler to reply with 'Hello' to any incoming message
-    dp.add_handler(MessageHandler(Filters.text & ~Filters.command, reply_hello))
+def echo(update: Update, context: CallbackContext) -> None:
+    update.message.reply_text('Hello, blah blah... You said: ' + update.message.text)
 
-    # Start the bot
+def main() -> None:
+    updater = Updater(TOKEN)
+    dispatcher = updater.dispatcher
+
+    # Handlers
+    dispatcher.add_handler(CommandHandler("start", start))
+    dispatcher.add_handler(MessageHandler(Filters.text & ~Filters.command, echo))
+
+    # Start the Bot
     updater.start_polling()
     updater.idle()
 
