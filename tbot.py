@@ -2,7 +2,7 @@ from telegram import Update
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackContext
 
 # Replace 'YOUR_TOKEN' with your actual bot token
-TOKEN = '6761392846:AAGVLI92-CuFcv9vdfDEpo6YFr061vQIWvo'
+TOKEN = '6761392846:AAGkAIOuBLcqFXQUN5EUT8qWT4SP2qW8RTA'
 
 def start(update: Update, context: CallbackContext) -> None:
     update.message.reply_text('Hello! I am your bot. Type something, and I will respond with a hello.')
