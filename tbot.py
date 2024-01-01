@@ -21,12 +21,16 @@ def download(update: Update, context: CallbackContext) -> None:
         # Downloading the video
         youtube = YouTube(video_url)
         video = youtube.streams.get_highest_resolution()
-        video.download()
+        video_file_path = f'{video.title}.mp4'
+        video.download(filename=video_file_path)
 
-        update.message.reply_text('Video downloaded successfully!')
+        # Send the video file to the chat
+        context.bot.send_video(chat_id=chat_id, video=open(video_file_path, 'rb'), supports_streaming=True)
+
+        update.message.reply_text('Video sent successfully!')
 
     except Exception as e:
-        update.message.reply_text('Error downloading the video. Make sure the URL is valid and try again.')
+        update.message.reply_text('Error processing the video. Make sure the URL is valid and try again.')
 
 def main() -> None:
     updater = Updater(TOKEN)
